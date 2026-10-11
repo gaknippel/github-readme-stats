@@ -15,7 +15,7 @@ exports[`Test Render WakaTime Card should render correctly 1`] = `
         <desc id="descId"></desc>
         <style>
           .header {
-            font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
+            font: 600 18px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
             fill: #2f80ed;
             animation: fadeInAnimation 0.8s ease-in-out forwards;
           }
@@ -67,6 +67,7 @@ exports[`Test Render WakaTime Card should render correctly 1`] = `
           
           
         </style>
+        
 
         
 
@@ -173,7 +174,7 @@ exports[`Test Render WakaTime Card should render correctly with compact layout 1
         <desc id="descId"></desc>
         <style>
           .header {
-            font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
+            font: 600 18px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
             fill: #2f80ed;
             animation: fadeInAnimation 0.8s ease-in-out forwards;
           }
@@ -225,6 +226,7 @@ exports[`Test Render WakaTime Card should render correctly with compact layout 1
           
           
         </style>
+        
 
         
 
@@ -325,7 +327,7 @@ exports[`Test Render WakaTime Card should render correctly with compact layout w
         <desc id="descId"></desc>
         <style>
           .header {
-            font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
+            font: 600 18px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
             fill: #2f80ed;
             animation: fadeInAnimation 0.8s ease-in-out forwards;
           }
@@ -377,6 +379,7 @@ exports[`Test Render WakaTime Card should render correctly with compact layout w
           
           
         </style>
+        
 
         
 
@@ -477,7 +480,7 @@ exports[`Test Render WakaTime Card should render correctly with percent display 
         <desc id="descId"></desc>
         <style>
           .header {
-            font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
+            font: 600 18px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
             fill: #2f80ed;
             animation: fadeInAnimation 0.8s ease-in-out forwards;
           }
@@ -529,6 +532,7 @@ exports[`Test Render WakaTime Card should render correctly with percent display 
           
           
         </style>
+        
 
         
 

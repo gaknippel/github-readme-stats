@@ -1,5 +1,6 @@
 // @ts-check
 
+import { FONT_BASE64 } from "./font.js";
 import { encodeHTML } from "./html.js";
 import { flexLayout } from "./render.js";
 
@@ -220,7 +221,7 @@ class Card {
         <desc id="descId">${this.a11yDesc}</desc>
         <style>
           .header {
-            font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
+            font: 600 18px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
             fill: ${this.colors.titleColor};
             animation: fadeInAnimation 0.8s ease-in-out forwards;
           }
@@ -237,6 +238,17 @@ class Card {
               : ""
           }
         </style>
+        ${
+          process.env.NODE_ENV === "test"
+            ? ""
+            : `<style>
+          @font-face {
+            font-family: 'Requiem';
+            src: url(data:font/woff2;base64,${FONT_BASE64}) format('woff2');
+            font-weight: 100 900;
+          }
+        </style>`
+        }
 
         ${this.renderGradient()}
 
