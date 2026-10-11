@@ -358,13 +358,6 @@ const renderActivityCard = (activity, options = {}) => {
 
   return card.render(`
     <defs>
-      <filter id="activity-glow" x="-10%" y="-30%" width="120%" height="160%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
       <linearGradient id="activity-fill" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="${lineColor}" stop-opacity="0.45" />
         <stop offset="100%" stop-color="${lineColor}" stop-opacity="0" />
@@ -373,7 +366,7 @@ const renderActivityCard = (activity, options = {}) => {
     ${gridlines}
     ${xLabels}
     <path d="${areaPath}" fill="url(#activity-fill)" class="area" data-testid="activity-area" />
-    <path d="${linePath}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" pathLength="1" filter="url(#activity-glow)" class="line" data-testid="activity-line" />
+    <path d="${linePath}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" pathLength="1" class="line" data-testid="activity-line" />
     ${peakDot}
     ${subtitle}
     <text x="25" y="${chartBottom + 42}" class="summary" data-testid="activity-summary">${summary}</text>
