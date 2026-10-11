@@ -116,3 +116,8 @@ export type WakaTimeLang = {
   text: string;
   percent: number;
 };
+
+export type ActivityData = {
+  total: number;
+  days: { date: string; count: number }[];
+};
