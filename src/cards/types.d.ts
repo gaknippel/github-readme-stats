@@ -70,6 +70,7 @@ export type ActivityCardOptions = CommonOptions & {
   hide_title: boolean;
   card_width: number;
   line_color: string;
+  texture: string;
   custom_title: string;
   disable_animations: boolean;
 };

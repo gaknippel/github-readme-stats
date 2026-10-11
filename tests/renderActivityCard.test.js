@@ -93,6 +93,56 @@ describe("renderActivityCard", () => {
   });
 });
 
+describe("renderActivityCard extras", () => {
+  const days = makeDays([1, 2, 3]);
+
+  it("should tile a known texture under the border", () => {
+    document.body.innerHTML = renderActivityCard(
+      { total: 6, days },
+      { texture: "metal" },
+    );
+    expect(document.querySelector("#bg-texture image")).toHaveAttribute(
+      "href",
+      expect.stringMatching(/^data:image\/jpeg;base64,/),
+    );
+    expect(queryByTestId(document.body, "card-bg")).toHaveAttribute(
+      "fill",
+      "none",
+    );
+  });
+
+  it("should ignore unknown textures", () => {
+    for (const texture of ["nope", "constructor", "__proto__"]) {
+      document.body.innerHTML = renderActivityCard(
+        { total: 6, days },
+        { texture },
+      );
+      expect(document.querySelector("#bg-texture")).toBeNull();
+    }
+  });
+
+  it("should describe the chart in the subtitle when the title is custom", () => {
+    document.body.innerHTML = renderActivityCard({ total: 6, days });
+    expect(queryByTestId(document.body, "activity-subtitle")).toHaveTextContent(
+      "last 3 days",
+    );
+
+    document.body.innerHTML = renderActivityCard(
+      { total: 6, days },
+      { custom_title: "Greyson Knippel" },
+    );
+    expect(queryByTestId(document.body, "activity-subtitle")).toHaveTextContent(
+      "contribution activity · last 3 days",
+    );
+
+    document.body.innerHTML = renderActivityCard(
+      { total: 6, days },
+      { hide_title: true },
+    );
+    expect(queryByTestId(document.body, "activity-subtitle")).toBeNull();
+  });
+});
+
 describe("activity helpers", () => {
   it("groupByWeek should align weeks to the last day and drop a partial week", () => {
     const days = makeDays([9, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]);

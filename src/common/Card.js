@@ -52,6 +52,8 @@ class Card {
     this.paddingY = 35;
     this.titlePrefixIcon = titlePrefixIcon;
     this.animations = true;
+    /** @type {{ data: string, size: number } | undefined} */
+    this.texture = undefined;
     this.a11yTitle = "";
     this.a11yDesc = "";
   }
@@ -99,6 +101,14 @@ class Card {
     if (value) {
       this.height -= 30;
     }
+  }
+
+  /**
+   * @param {{ data: string, size: number }=} texture Tileable background image.
+   * @returns {void}
+   */
+  setTexture(texture) {
+    this.texture = texture;
   }
 
   /**
@@ -173,6 +183,34 @@ class Card {
         </defs>
         `
       : "";
+  }
+
+  /**
+   * Tiles the texture across the card with a dark vignette on top so text
+   * stays readable. Drawn under the card's border.
+   *
+   * @returns {string} The rendered card texture.
+   */
+  renderTexture() {
+    if (!this.texture) {
+      return "";
+    }
+
+    const { data, size } = this.texture;
+    const shape = `x="0.5" y="0.5" rx="${this.border_radius}" height="99%" width="${this.width - 1}"`;
+    return `
+      <defs>
+        <pattern id="bg-texture" patternUnits="userSpaceOnUse" width="${size}" height="${size}">
+          <image href="${data}" width="${size}" height="${size}" />
+        </pattern>
+        <radialGradient id="bg-vignette" cx="50%" cy="45%" r="75%">
+          <stop offset="0%" stop-color="#000" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#000" stop-opacity="0.85" />
+        </radialGradient>
+      </defs>
+      <rect ${shape} fill="url(#bg-texture)" />
+      <rect ${shape} fill="url(#bg-vignette)" />
+    `;
   }
 
   /**
@@ -251,6 +289,7 @@ class Card {
         }
 
         ${this.renderGradient()}
+        ${this.renderTexture()}
 
         <rect
           data-testid="card-bg"
@@ -261,9 +300,11 @@ class Card {
           stroke="${this.colors.borderColor}"
           width="${this.width - 1}"
           fill="${
-            typeof this.colors.bgColor === "object"
-              ? "url(#gradient)"
-              : this.colors.bgColor
+            this.texture
+              ? "none"
+              : typeof this.colors.bgColor === "object"
+                ? "url(#gradient)"
+                : this.colors.bgColor
           }"
           stroke-opacity="${this.hideBorder ? 0 : 1}"
         />

@@ -462,6 +462,13 @@ export const themes = {
     icon_color: "ffffff",
     bg_color: "35,4158d0,c850c0,ffcc70",
   },
+  requiem: {
+    title_color: "e0201b",
+    icon_color: "ff2a1f",
+    text_color: "d9c9a8",
+    bg_color: "1a1210",
+    border_color: "5c1a14",
+  },
 };
 
 export default themes;

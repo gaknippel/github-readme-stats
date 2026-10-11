@@ -39,6 +39,7 @@ export default async (req, res) => {
     border_radius,
     border_color,
     disable_animations,
+    texture,
   } = req.query;
   res.setHeader("Content-Type", "image/svg+xml");
 
@@ -92,6 +93,7 @@ export default async (req, res) => {
         border_radius,
         border_color,
         disable_animations: parseBoolean(disable_animations),
+        texture,
       }),
     );
   } catch (err) {

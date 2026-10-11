@@ -3,6 +3,7 @@
 import { Card } from "../common/Card.js";
 import { getCardColors, isValidHexColor } from "../common/color.js";
 import { clampValue } from "../common/ops.js";
+import { textures } from "../common/textures.js";
 
 const DEFAULT_CARD_WIDTH = 495;
 const MIN_CARD_WIDTH = 300;
@@ -181,6 +182,7 @@ const renderActivityCard = (activity, options = {}) => {
     theme = "default",
     custom_title,
     disable_animations = false,
+    texture,
   } = options;
 
   const width = clampValue(
@@ -267,6 +269,16 @@ const renderActivityCard = (activity, options = {}) => {
       ? `<circle cx="${xAt(peakIndex)}" cy="${yAt(peak.count)}" r="3.5" fill="${lineColor}" class="dot" />`
       : "";
 
+  // Right side of the title row. With a custom title (e.g. a name), say
+  // what the chart is, since the default title no longer does.
+  const range =
+    days.length >= 360 ? "last 12 months" : `last ${days.length} days`;
+  const subtitle = hide_title
+    ? ""
+    : `<text x="${width - 25}" y="-20" class="subtitle" text-anchor="end" data-testid="activity-subtitle">${
+        custom_title === undefined ? range : `contribution activity · ${range}`
+      }</text>`;
+
   const streak = currentStreak(days);
   const summary = [
     `${activity.total} contributions`,
@@ -299,6 +311,10 @@ const renderActivityCard = (activity, options = {}) => {
 
   card.setHideBorder(hide_border);
   card.setHideTitle(hide_title);
+  // @ts-ignore
+  card.setTexture(
+    Object.hasOwn(textures, texture) ? textures[texture] : undefined,
+  );
   card.setAccessibilityLabel({
     title: `${card.title}, ${activity.total} contributions`,
     desc: summary,
@@ -313,6 +329,11 @@ const renderActivityCard = (activity, options = {}) => {
     .axis {
       font: 400 10px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
       fill: ${textColor};
+    }
+    .subtitle {
+      font: 400 11px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
+      fill: ${textColor};
+      fill-opacity: 0.8;
     }
     .summary {
       font: 400 12px 'Requiem', 'Segoe UI', Ubuntu, Sans-Serif;
@@ -337,6 +358,13 @@ const renderActivityCard = (activity, options = {}) => {
 
   return card.render(`
     <defs>
+      <filter id="activity-glow" x="-10%" y="-30%" width="120%" height="160%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
       <linearGradient id="activity-fill" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="${lineColor}" stop-opacity="0.45" />
         <stop offset="100%" stop-color="${lineColor}" stop-opacity="0" />
@@ -345,8 +373,9 @@ const renderActivityCard = (activity, options = {}) => {
     ${gridlines}
     ${xLabels}
     <path d="${areaPath}" fill="url(#activity-fill)" class="area" data-testid="activity-area" />
-    <path d="${linePath}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" pathLength="1" class="line" data-testid="activity-line" />
+    <path d="${linePath}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" pathLength="1" filter="url(#activity-glow)" class="line" data-testid="activity-line" />
     ${peakDot}
+    ${subtitle}
     <text x="25" y="${chartBottom + 42}" class="summary" data-testid="activity-summary">${summary}</text>
   `);
 };
